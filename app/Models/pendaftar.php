@@ -17,4 +17,5 @@ class pendaftar extends Model
         'status',
         'surat',
     ];
+    public $timestamps = false;
 }

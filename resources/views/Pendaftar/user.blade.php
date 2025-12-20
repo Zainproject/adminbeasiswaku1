@@ -136,12 +136,18 @@
                                                 </td>
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                    <a href="javascript:;"
-                                                        class="text-xs font-semibold leading-tight text-slate-400"> Edit//
+                                                    <a href="{{ url('pendaftar/' . $item->email . '/edit') }}"
+                                                        class="text-xs font-semibold leading-tight text-slate-400">
+                                                        Edit
                                                     </a>
-                                                    <a href="javascript:;"
-                                                        class="text-xs font-semibold leading-tight text-slate-400"> Hapus
-                                                    </a>
+                                                    <form onsubmit="return confirm('Apakah anda yakin?')"
+                                                        action="{{ url('pendaftar/' . $item->email) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="text-xs font-semibold leading-tight text-slate-400">Hapus</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

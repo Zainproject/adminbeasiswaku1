@@ -18,53 +18,55 @@
                 </nav>
             </div>
         </nav>
-        <form method="POST" action="{{ url('pendaftar') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('pendaftar/' . $pendaftar->email) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
-            <h6 class="mb-4">Tambah Pendaftar</h6>
+            <h6 class="mb-4">Edit Pendaftar</h6>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {{-- ID User --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">ID User</label>
-                    <input type="text" name="id_user" value="{{ old('id_user') }}"
+                    <input type="text" name="id_user" value="{{ old('id_user', $pendaftar->id_user) }}"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('id_user') border-red-500 @enderror">
                 </div>
 
                 {{-- Nama Lengkap --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
+                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $pendaftar->nama_lengkap) }}"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('nama_lengkap') border-red-500 @enderror">
                 </div>
 
                 {{-- Tanggal Lahir --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Tanggal Lahir</label>
-                    <input type="date" name="tetala" value="{{ old('tetala') }}"
+                    <input type="date" name="tetala" value="{{ old('tetala', $pendaftar->tetala) }}"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('tetala') border-red-500 @enderror">
                 </div>
 
                 {{-- Instansi --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Instansi</label>
-                    <input type="text" name="instansi" value="{{ old('instansi') }}"
+                    <input type="text" name="instansi" value="{{ old('instansi', $pendaftar->instansi) }}"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('instansi') border-red-500 @enderror">
                 </div>
 
                 {{-- Email --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}"
+                    <input type="email" name="email" value="{{ old('email', $pendaftar->email) }}"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('email') border-red-500 @enderror">
                 </div>
 
-                {{-- Password --}}
+                {{-- Password (opsional edit) --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Password</label>
                     <div class="relative flex items-center border rounded-lg @error('password') border-red-500 @enderror">
                         <input type="password" name="password"
-                            class="w-full px-3 py-2 text-sm border-0 rounded-lg focus:outline-none">
+                            class="w-full px-3 py-2 text-sm border-0 rounded-lg focus:outline-none"
+                            placeholder="Isi jika ingin mengganti password">
                     </div>
                 </div>
 
@@ -74,9 +76,12 @@
                     <select name="status"
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('status') border-red-500 @enderror">
                         <option value="">-- Pilih Status --</option>
-                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="diterima" {{ old('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                        <option value="ditolak" {{ old('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        <option value="pending" {{ old('status', $pendaftar->status) == 'pending' ? 'selected' : '' }}>
+                            Pending</option>
+                        <option value="diterima" {{ old('status', $pendaftar->status) == 'diterima' ? 'selected' : '' }}>
+                            Diterima</option>
+                        <option value="ditolak" {{ old('status', $pendaftar->status) == 'ditolak' ? 'selected' : '' }}>
+                            Ditolak</option>
                     </select>
                 </div>
 
@@ -84,6 +89,9 @@
                 <div class="md:col-span-2">
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Surat</label>
                     <input type="file" name="surat" class="w-full text-sm @error('surat') border-red-500 @enderror">
+                    @if ($pendaftar->surat)
+                        <p class="text-xs text-slate-500 mt-1">File saat ini: {{ $pendaftar->surat }}</p>
+                    @endif
                 </div>
             </div>
 
@@ -95,32 +103,10 @@
                 </button>
                 <button type="submit"
                     class="px-6 py-2 text-xs font-bold uppercase text-white bg-fuchsia-500 rounded-lg hover:bg-fuchsia-600">
-                    Simpan
+                    Update
                 </button>
             </div>
         </form>
 
-        {{-- SweetAlert Error Handling --}}
-        @if ($errors->any())
-            <script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Validasi Gagal',
-                    html: `
-                <ul style="text-align:center;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            `,
-                }).then(() => {
-                    // Fokus ke field pertama yang error
-                    @php
-                        $firstErrorField = array_key_first($errors->toArray());
-                    @endphp
-                    document.getElementsByName('{{ $firstErrorField }}')[0]?.focus();
-                });
-            </script>
-        @endif
     </main>
 @endsection
