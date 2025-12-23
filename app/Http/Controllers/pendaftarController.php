@@ -13,7 +13,8 @@ class pendaftarController extends Controller
     public function index()
     {
         $pendaftar = pendaftar::paginate(7);
-        return view('Pendaftar.user', compact('pendaftar'));
+        $beasiswa = \App\Models\Beasiswa::paginate(7);
+        return view('Pendaftar.user', compact('pendaftar', 'beasiswa'));
     }
 
     /**
@@ -96,14 +97,14 @@ class pendaftarController extends Controller
      */
     public function edit(string $id)
     {
-        $pendaftar = pendaftar::where('email', $id)->first();
+        $pendaftar = pendaftar::findOrFail($id);
         return view('Pendaftar.edituser')->with('pendaftar', $pendaftar);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id_pendaftar)
+    public function update(Request $request, string $id)
     {
         // Validasi input
         $request->validate([
@@ -139,7 +140,8 @@ class pendaftarController extends Controller
             $data['surat'] = $fileName;
         }
 
-        Pendaftar::where('email', $request->email)->update($data);
+        $pendaftar = pendaftar::findOrFail($id);
+        $pendaftar->update($data);
         return redirect()->route('pendaftar.index')->with('success', 'Data pendaftar berhasil diperbarui');
     }
 
@@ -147,9 +149,9 @@ class pendaftarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $email)
+    public function destroy(string $id)
     {
-        $pendaftar = pendaftar::where('email', $email)->first();
+        $pendaftar = pendaftar::findOrFail($id);
         $pendaftar->delete();
         return redirect()
             ->route('pendaftar.index')

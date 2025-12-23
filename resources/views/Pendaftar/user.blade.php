@@ -136,12 +136,12 @@
                                                 </td>
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                    <a href="{{ url('pendaftar/' . $item->email . '/edit') }}"
+                                                    <a href="{{ url('pendaftar/' . $item->id . '/edit') }}"
                                                         class="text-xs font-semibold leading-tight text-slate-400">
                                                         Edit
                                                     </a>
                                                     <form onsubmit="return confirm('Apakah anda yakin?')"
-                                                        action="{{ url('pendaftar/' . $item->email) }}" method="POST"
+                                                        action="{{ url('pendaftar/' . $item->id) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -207,6 +207,161 @@
                 </div>
             </div>
 
+            <!-- table 2 -->
+
+            <div class="flex flex-wrap -mx-3">
+                <div class="flex-none w-full max-w-full px-3">
+                    <div
+                        class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div
+                            class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex items-center justify-between">
+                            <h6 class="mb-0">Data Beasiswa</h6>
+
+                            <a class="inline-block px-8 py-2 text-xs font-bold uppercase transition-all bg-transparent border border-solid rounded-lg cursor-pointer border-fuchsia-500 text-fuchsia-500 hover:scale-102 hover:opacity-75 active:bg-fuchsia-500 active:text-white"
+                                href="beasiswa/create">
+                                Tambah Beasiswa
+                            </a>
+                        </div>
+
+
+                        <div class="flex-auto px-0 pt-0 pb-2">
+                            <div class="p-0 overflow-x-auto">
+                                <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                                    <thead class="align-bottom">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Nama Beasiswa</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Penyedia</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Status</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Deadline</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Deskripsi</th>
+                                            <th
+                                                class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($beasiswa as $item)
+                                            <tr>
+                                                <td
+                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <div class="flex px-2 py-1">
+                                                        <div>
+                                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_beasiswa) }}&background=random&color=fff"
+                                                                class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-soft-in-out h-9 w-9 rounded-xl"
+                                                                alt="{{ $item->nama_beasiswa }}" />
+                                                        </div>
+                                                        <div class="flex flex-col justify-center">
+                                                            <h6 class="mb-0 text-sm leading-normal">
+                                                                {{ $item->nama_beasiswa }}
+                                                            </h6>
+                                                            <p class="mb-0 text-xs leading-tight text-slate-400">
+                                                                {{ $item->penyedia }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td
+                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <p class="mb-0 text-xs font-semibold leading-tight">
+                                                        {{ $item->penyedia }}</p>
+                                                </td>
+                                                <td
+                                                    class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <span
+                                                        class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">{{ $item->status }}</span>
+                                                </td>
+                                                <td
+                                                    class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <span
+                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->deadline_formatted }}</span>
+                                                </td>
+                                                <td
+                                                    class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <span
+                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->deskripsi ?: '-' }}</span>
+                                                </td>
+                                                <td
+                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <a href="{{ url('beasiswa/' . $item->id . '/edit') }}"
+                                                        class="text-xs font-semibold leading-tight text-slate-400">
+                                                        Edit
+                                                    </a>
+                                                    <form onsubmit="return confirm('Apakah anda yakin?')"
+                                                        action="{{ url('beasiswa/' . $item->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="text-xs font-semibold leading-tight text-slate-400">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="flex justify-center mt-8">
+
+                                    <nav class="flex items-center gap-2">
+
+                                        {{-- Previous --}}
+                                        @if ($beasiswa->onFirstPage())
+                                            <span
+                                                class="px-4 py-2 text-sm rounded-full border border-fuchsia-400 text-fuchsia-400 opacity-40 cursor-not-allowed">
+                                                Prev
+                                            </span>
+                                        @else
+                                            <a href="{{ $beasiswa->previousPageUrl() }}"
+                                                class="px-4 py-2 text-sm rounded-full border border-fuchsia-500 text-fuchsia-500 transition-all hover:bg-fuchsia-500 hover:text-white hover:shadow-md">
+                                                Prev
+                                            </a>
+                                        @endif
+
+                                        {{-- Page Numbers --}}
+                                        @foreach ($beasiswa->getUrlRange(1, $beasiswa->lastPage()) as $page => $url)
+                                            @if ($page == $beasiswa->currentPage())
+                                                <span
+                                                    class="px-4 py-2 text-sm rounded-full bg-fuchsia-500 text-white shadow-md">
+                                                    {{ $page }}
+                                                </span>
+                                            @else
+                                                <a href="{{ $url }}"
+                                                    class="px-4 py-2 text-sm rounded-full border border-fuchsia-300 text-fuchsia-500 transition-all hover:bg-fuchsia-500 hover:text-white hover:shadow-md">
+                                                    {{ $page }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Next --}}
+                                        @if ($beasiswa->hasMorePages())
+                                            <a href="{{ $beasiswa->nextPageUrl() }}"
+                                                class="px-4 py-2 text-sm rounded-full border border-fuchsia-500 text-fuchsia-500 transition-all hover:bg-fuchsia-500 hover:text-white hover:shadow-md">
+                                                Next
+                                            </a>
+                                        @else
+                                            <span
+                                                class="px-4 py-2 text-sm rounded-full border border-fuchsia-400 text-fuchsia-400 opacity-40 cursor-not-allowed">
+                                                Next
+                                            </span>
+                                        @endif
+
+                                    </nav>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- card 2 -->
 
             <div class="flex flex-wrap -mx-3">
