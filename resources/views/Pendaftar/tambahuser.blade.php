@@ -52,6 +52,13 @@
                         class="w-full px-3 py-2 text-sm border rounded-lg @error('instansi') border-red-500 @enderror">
                 </div>
 
+                {{-- Alamat --}}
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-slate-600">Alamat</label>
+                    <textarea name="alamat" class="w-full px-3 py-2 text-sm border rounded-lg @error('alamat') border-red-500 @enderror"
+                        rows="3">{{ old('alamat') }}</textarea>
+                </div>
+
                 {{-- Email --}}
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-slate-600">Email</label>

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('beasiswa', function (Blueprint $table) {
             $table->id();
-            $table->string('penyedia'); // Provider
-            $table->string('nama_beasiswa'); // Scholarship name
-            $table->text('deskripsi')->nullable(); // Description
-            $table->date('deadline')->nullable(); // Deadline
-            $table->string('status')->default('active'); // Status
+            $table->string('nama_beasiswa');
+            $table->text('deskripsi');
+            $table->string('penyedia');
+            $table->date('deadline');
+            $table->string('email');
+            $table->string('password');
             $table->timestamps();
         });
     }

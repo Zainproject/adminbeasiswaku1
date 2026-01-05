@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pendaftar;
+use App\Models\Pendaftar;
 use Illuminate\Http\Request;
 
 class pendaftarController extends Controller
@@ -12,7 +12,7 @@ class pendaftarController extends Controller
      */
     public function index()
     {
-        $pendaftar = pendaftar::paginate(7);
+        $pendaftar = Pendaftar::paginate(7);
         $beasiswa = \App\Models\Beasiswa::paginate(7);
         return view('Pendaftar.user', compact('pendaftar', 'beasiswa'));
     }
@@ -39,6 +39,7 @@ class pendaftarController extends Controller
                 'email' => 'required|email|unique:pendaftar,email',
                 'password' => 'required|string|min:4',
                 'instansi' => 'required|string|max:255',
+                'alamat' => 'nullable|string|max:500',
                 'status' => 'nullable|string',
                 'surat' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048',
             ],
@@ -53,6 +54,8 @@ class pendaftarController extends Controller
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 4 karakter.',
                 'instansi.required' => 'Instansi wajib diisi.',
+                'alamat.string' => 'Alamat harus berupa teks.',
+                'alamat.max' => 'Alamat maksimal 500 karakter.',
                 'status.string' => 'Status harus berupa teks.',
                 'surat.file' => 'Surat harus berupa file yang valid.',
                 'surat.mimes' => 'Surat harus berformat pdf, doc, docx, jpg, jpeg, atau png.',
@@ -67,13 +70,14 @@ class pendaftarController extends Controller
             $suratPath = $request->file('surat')->store('surat', 'public');
         }
 
-        pendaftar::create([
+        Pendaftar::create([
             'id_user' => $request->id_user,
             'nama_lengkap' => $request->nama_lengkap,
             'tetala' => $request->tetala,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'instansi' => $request->instansi,
+            'alamat' => $request->alamat,
             'status' => $request->status,
             'surat' => $suratPath,
         ]);
@@ -140,7 +144,7 @@ class pendaftarController extends Controller
             $data['surat'] = $fileName;
         }
 
-        $pendaftar = pendaftar::findOrFail($id);
+        $pendaftar = Pendaftar::findOrFail($id);
         $pendaftar->update($data);
         return redirect()->route('pendaftar.index')->with('success', 'Data pendaftar berhasil diperbarui');
     }
@@ -156,5 +160,11 @@ class pendaftarController extends Controller
         return redirect()
             ->route('pendaftar.index')
             ->with('success', 'Pendaftar berhasil dihapus');
+    }
+
+    public function userpengajuan()
+    {
+        $pendaftar = Pendaftar::all();
+        return view('Pengajuan.userpengajuan', compact('pendaftar'));
     }
 }

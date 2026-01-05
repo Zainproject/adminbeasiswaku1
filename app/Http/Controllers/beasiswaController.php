@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Beasiswa;
-use Illuminate\Auth\Events\Validated;
+use App\Models\beasiswa;
 
 class beasiswaController extends Controller
 {

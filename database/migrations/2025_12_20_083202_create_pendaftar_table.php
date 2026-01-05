@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id('id_user');
             $table->string('nama_lengkap');
             $table->date('tetala');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->string('instansi');
-            $table->string('status')->default('pending');
+            $table->text('alamat');
+            $table->string('status');
             $table->string('surat')->nullable();
+            $table->unsignedBigInteger('beasiswa_id')->nullable();
+            $table->foreign('beasiswa_id')->references('id')->on('beasiswa');
             $table->timestamps();
         });
     }

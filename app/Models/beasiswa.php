@@ -3,45 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Pendaftar;
 
-class beasiswa extends Authenticatable
+class beasiswa extends Model
 {
-    use Notifiable;
-
     protected $table = 'beasiswa';
-
     protected $fillable = [
-        'penyedia',
         'nama_beasiswa',
-        'deskripsi',
+        'penyedia',
         'deadline',
-        'status',
+        'deskripsi',
         'email',
         'password',
     ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
     protected $casts = [
         'deadline' => 'date',
-        'password' => 'hashed',
     ];
+    public $timestamps = false;
 
-    public function getDeadlineFormattedAttribute()
+    public function pendaftar()
     {
-        if (!$this->deadline) {
-            return '-';
-        }
+        return $this->hasMany(Pendaftar::class, 'beasiswa_id');
+    }
 
-        if ($this->deadline instanceof \Carbon\Carbon) {
-            return $this->deadline->format('d/m/Y');
-        }
-
-        return \Carbon\Carbon::parse($this->deadline)->format('d/m/Y');
+    public function pengajuan()
+    {
+        return $this->hasMany(Pengajuan::class, 'beasiswa_id');
     }
 }
