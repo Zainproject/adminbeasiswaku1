@@ -1,4 +1,4 @@
-# Admin Beasiswaku 👨‍💼
+# Admin Beasiswaku1 👨‍💼
 
 **Admin Beasiswaku** adalah bagian dari sistem informasi **Beasiswaku** yang berfungsi sebagai pusat kendali untuk pengelolaan data beasiswa.  
 Proyek ini dikembangkan menggunakan **Laravel Framework** sebagai backend utama, dengan tujuan memudahkan pengelola kampus dalam mengatur program beasiswa secara efisien dan aman.  
